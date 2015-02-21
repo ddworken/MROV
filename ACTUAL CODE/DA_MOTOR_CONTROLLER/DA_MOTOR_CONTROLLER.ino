@@ -65,7 +65,7 @@ void setup() {
     }
   }
   
-  Serial.println("Testing servos...");
+  Serial.println(F("Testing servos..."));
   servo0.write(30);
   delay(500);
   servo0.write(50);
@@ -89,7 +89,7 @@ void setup() {
   servo5.write(30);
   delay(500);
   servo5.write(50);
-  Serial.println("Servos tested");
+  Serial.println(F("Servos tested"));
   
 }
 
@@ -98,7 +98,7 @@ void loop() {
   //*********************************
   // Receive serial input
   //*********************************
-  Serial.println("Waiting for values...");
+  Serial.println(F("Waiting for values..."));
   while (Serial.available() <= 0 || (char)Serial.read() != '!') {
     // Wait for start signal...
   }
@@ -122,7 +122,7 @@ void loop() {
   
   delay(1);
   
-  Serial.println("Values received: ");
+  Serial.println(F("Values received: "));
   Serial.println(inputString);
   
   //************************************
@@ -140,18 +140,18 @@ void loop() {
     }
     input_buffer[3] = '\0';
     int m_val = atoi(input_buffer);
-    Serial.print("Parsing value: ");
+    Serial.print(F("Parsing value: "));
     Serial.println(m_val);
     motor_values[i] = m_val - 256;
   }
   
   // For debugging, print out the motor values
-  Serial.print("Parsed motor values: {");
+  Serial.print(F("Parsed motor values: {"));
   for (int i = 0; i < NUM_MOTORS; i++) {
     Serial.print(motor_values[i]);
-    Serial.print(", ");
+    Serial.print(F(", "));
   }
-  Serial.println("}");
+  Serial.println(F("}"));
   
   // Parse servo values
   for (int i = 0; i < 2; i++) {
@@ -161,7 +161,7 @@ void loop() {
     }
     input_buffer[3] = '\0';
     int s_val = atoi(input_buffer);
-    Serial.print("Parsing servo value: ");
+    Serial.print(F("Parsing servo value: "));
     Serial.println(s_val);
     servo_values[i] = s_val;
   }
@@ -179,14 +179,14 @@ void loop() {
   }
   
   // Write out servo values
-  Serial.print("Writing ");
+  Serial.print(F("Writing "));
   Serial.print(servo_values[0]);
-  Serial.println(" to servo 1");
+  Serial.println(F(" to servo 1"));
   servo1.write(servo_values[0]);
   
-  Serial.print("Writing ");
+  Serial.print(F("Writing "));
   Serial.print(servo_values[1]);
-  Serial.println(" to servo 2");
+  Serial.println(F(" to servo 2"));
   servo2.write(servo_values[1]);
 
 }
