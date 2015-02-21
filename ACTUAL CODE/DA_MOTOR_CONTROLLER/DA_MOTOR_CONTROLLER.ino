@@ -181,13 +181,33 @@ void loop() {
   // Write out servo values
   Serial.print(F("Writing "));
   Serial.print(servo_values[0]);
-  Serial.println(F(" to servo 1"));
-  servo1.write(servo_values[0]);
+  Serial.println(F(" to servo 0"));
+  servo0.write(servo_values[0]);
   
   Serial.print(F("Writing "));
   Serial.print(servo_values[1]);
+  Serial.println(F(" to servo 1"));
+  servo1.write(servo_values[1]);
+
+  Serial.print(F("Writing "));
+  Serial.print(servo_values[2]);
   Serial.println(F(" to servo 2"));
-  servo2.write(servo_values[1]);
+  servo2.write(servo_values[2]);
+
+  Serial.print(F("Writing "));
+  Serial.print(servo_values[3]);
+  Serial.println(F(" to servo 2"));
+  servo3.write(servo_values[3]);
+
+  Serial.print(F("Writing "));
+  Serial.print(servo_values[4]);
+  Serial.println(F(" to servo 4"));
+  servo4.write(servo_values[4]);
+
+  Serial.print(F("Writing "));
+  Serial.print(servo_values[5]);
+  Serial.println(F(" to servo 5"));
+  servo5.write(servo_values[5]);
 
 }
 //Returns True if the motor speed was successfully set
