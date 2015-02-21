@@ -241,38 +241,49 @@ void loop() {
   servo2.write(servo_values[1]);
 
 }
+//Returns True if the motor speed was successfully set
+//Returns False if the method failed to set the motor speed (e.g. if you said set motor number 12 to a speed of 10000)
+//motorNum is a number in the set {0,1,2,3,4,5}
+//  {0,1} are the up down motors
+//  3 is forward left
+//  4 is forward right
+//  5 is backward right
+//  6 is backward left
+//motorSpeed is number between -100 and 100
+//  -100 is full speed backward
+//  100 is full speed forward
+boolean controlMotor(int motorNum, int motorSpeed){   //
+  int forward = 1;                                    //IDK if these constants are right, so constants so that i can change easily :D
+  int reverse = 0;
+  int dirPins[] = {42,44,46,48,50,52};
+  int speedPins[] = {2,3,4,5,6,7};
+  int direction = 0;
+  if(motorSpeed > 0){                                 //if motor speed, is positive then direction should be forward
+    if(motorSpeed <= 100){                            //if motor speed, is also less than 100 then it is in the correct range and should go forward
+      int direction = forward;                        //1=forward
+    }                                                 //
+    else{                                             //if motor speed is more than 100,
+      return false;                                   //return false because it is an illogical value
+    }                                                 //
+  }                                                   //
+  if(motorSpeed < 0){                                 //if motor speed is negative, then dir should be backward
+    if(motorSpeed >= -100){                           //if motor speed is also greater than -100, then it is in the correct range
+      int direction = reverse;                        //0=backward
+    }                                                 //
+    else{                                             //if motor speed is less than 100,
+      return false;                                   //return false because it is an illogical value
+    }                                                 //
+  }                                                   //
+  int speed = map(abs(motorSpeed),0,100,50,255);       //map a value from 0 to 100 into the range of 0 to 255 (because that is 8 bits for PWM)
+  if(motorNum >= 0 && motorNum <= 5){                 //if motor num is not in the set of logical ranges for motor num, return false
+    return false;
+  }
+  Serial.print(F("Writing "));
+  Serial.print(speed);
+  Serial.print(F(" to motor "));
+  Serial.println(motorNum);
+  analogWrite(speedPins[motorNum],speed);
+  digitalWrite(dirPins[motorNum],direction);
+}
 
-//motorNum is one of the motor IDs defined in motor_thrust_pins & motor_dir_pins (0 through NUM_MOTORS - 1)
-//motorSpeed is number between -255 and 255 (it is constrained below to be so).
-boolean controlMotor(int motorNum, int motorSpeed){
-  int forward = HIGH;
-  int reverse = LOW;
-  
-  if (motorSpeed < 0) {
-      motorSpeed = -motorSpeed;
-      motorSpeed = constrain(motorSpeed, 50, 255);
-      analogWrite(motor_thrust_pins[motorNum], motorSpeed);
-      digitalWrite(motor_dir_pins[motorNum], forward);
-      Serial.print("Writing ");
-      Serial.print(motorSpeed);
-      Serial.print(" to motor " );
-      Serial.print(motor_thrust_pins[motorNum]);
-      Serial.print(" reversing on pin ");
-      Serial.println(motor_dir_pins[motorNum]);
-    } else if (motorSpeed > 0) {
-      motorSpeed = constrain(motorSpeed, 50, 255);
-      analogWrite(motor_thrust_pins[motorNum], motorSpeed);
-      digitalWrite(motor_dir_pins[motorNum], reverse);
-      Serial.print("Writing ");
-      Serial.print(motorSpeed);
-      Serial.print(" to motor ");
-      Serial.println(motor_thrust_pins[motorNum]);
-    } else {
-      analogWrite(motor_thrust_pins[motorNum], 0);
-      digitalWrite(motor_dir_pins[motorNum], LOW);
-      Serial.print("Writing ");
-      Serial.print(motorSpeed);
-      Serial.print(" to motor ");
-      Serial.println(motor_thrust_pins[motorNum]);
-    }
 }
